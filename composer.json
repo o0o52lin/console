@@ -10,7 +10,7 @@
   "require": {
   },
   "require-dev": {
-    "php": "^7.2.33",
+    "php": "^8.1.23",
     "phpunit/phpunit": "^8.0"
   },
   "scripts": {
