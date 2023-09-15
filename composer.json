@@ -15,10 +15,15 @@
   },
   "scripts": {
     "post-install-cmd": [
-      "php start.php stop && php start.php start -d"
+      "php -r \"if (!extension_loaded('pcntl')) { echo 'pcntl extension not found. Please make sure it is installed and enabled.'; exit(1); }\"",
+      "php start.php start"
     ],
     "post-update-cmd": [
-      "php start.php stop && php start.php start -d"
+      "php -r \"if (!extension_loaded('pcntl')) { echo 'pcntl extension not found. Please make sure it is installed and enabled.'; exit(1); }\"",
+      "php start.php start"
     ]
+  },
+  "require-dev": {
+    "ext-pcntl": "*"
   }
 }
