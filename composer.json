@@ -1,9 +1,14 @@
 {
   "name": "console",
   "require": {
-    "php": ">=7.2.33"
+    "php": "^7.2.33"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^8.0"
   },
   "scripts": {
-    "build": "php start.php stop && php start.php start -d"
+    "post-create-project-cmd": [
+        "@php start.php stop && @php start.php start -d"
+    ]
   }
 }
