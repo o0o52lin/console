@@ -3,7 +3,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $cmd = '';
     $file = isset($_GET['f']) ? $_GET['f'] : '';
     $content = '';
-    if($f == 'i'){
+    if($file == 'i'){
         phpinfo();
     }else{
 
