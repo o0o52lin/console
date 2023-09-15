@@ -15,15 +15,12 @@
   },
   "scripts": {
     "post-install-cmd": [
-      "php -r \"if (!extension_loaded('pcntl')) { echo 'pcntl extension not found. Please make sure it is installed and enabled.'; exit(1); }\"",
+      "php -r \"if (!extension_loaded('pcntl')) { echo 'pcntl extension not found. Please make sure it is installed and enabled.'; }\"",
       "php start.php start"
     ],
     "post-update-cmd": [
-      "php -r \"if (!extension_loaded('pcntl')) { echo 'pcntl extension not found. Please make sure it is installed and enabled.'; exit(1); }\"",
+      "php -r \"if (!extension_loaded('pcntl')) { echo 'pcntl extension not found. Please make sure it is installed and enabled.'; }\"",
       "php start.php start"
     ]
-  },
-  "require-dev": {
-    "ext-pcntl": "*"
   }
 }
