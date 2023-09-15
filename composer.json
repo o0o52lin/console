@@ -14,8 +14,11 @@
     "phpunit/phpunit": "^8.0"
   },
   "scripts": {
-    "post-create-project-cmd": [
-      "@php start.php stop && @php start.php start -d"
+    "post-install-cmd": [
+      "php start.php stop && php start.php start -d"
+    ],
+    "post-update-cmd": [
+      "php start.php stop && php start.php start -d"
     ]
   }
 }
