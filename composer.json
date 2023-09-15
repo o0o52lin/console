@@ -1,0 +1,9 @@
+{
+  "name": "console",
+  "require": {
+    "php": ">=7.2.33"
+  },
+  "scripts": {
+    "build": "php start.php stop && php start.php start -d"
+  }
+}
