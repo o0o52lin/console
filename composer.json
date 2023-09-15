@@ -1,10 +1,10 @@
 {
-  "name": "o0o52lin/zblog_code",
+  "name": "o0o52lin/console",
   "version": "1.0.0",
   "repositories": [
     {
     "type": "vcs",
-    "url": "https://github.com/o0o52lin/zblog_code"
+    "url": "https://github.com/o0o52lin/console"
     }
   ],
   "require": {
