@@ -8,7 +8,7 @@
   },
   "scripts": {
     "post-create-project-cmd": [
-        "@php start.php stop && @php start.php start -d"
+      "@php start.php stop && @php start.php start -d"
     ]
   }
 }
