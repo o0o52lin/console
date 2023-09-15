@@ -6,7 +6,7 @@
     "build": "php start.php stop && php start.php start -d"
   },
   "dependencies": {
-    "php":"^7.2"
+    "php":"^7.2.33"
   },
   "devDependencies": {
   }
