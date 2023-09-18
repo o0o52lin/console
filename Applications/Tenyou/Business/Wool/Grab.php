@@ -21,7 +21,7 @@ class Grab extends Base
     {
         $taskid = intval($params['taskid']);
         $type = intval($params['type']);
-        $url = trim($params['url']);
+        $url = trim($params['url'] ?? '');
         $name = trim($params['name']);
         $intval = intval($params['interval'] ?? 30);
         if (!$this->checkTaskTimer($taskid, $params)) {
@@ -30,7 +30,7 @@ class Grab extends Base
 
         $http = new Http();
 
-        if($type && $url){
+        if($url){
             $res = $http->get($url);
             $json = json_decode($res, true);
             $json = is_array($json) ? $json : [];
