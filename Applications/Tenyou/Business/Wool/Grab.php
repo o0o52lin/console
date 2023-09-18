@@ -31,6 +31,7 @@ class Grab extends Base
         $http = new Http();
 
         if($url){
+            $http->timeout = 10;
             $res = $http->get($url);
             $json = json_decode($res, true);
             $json = is_array($json) ? $json : [];
