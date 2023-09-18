@@ -72,7 +72,7 @@ class OrderFilled extends Common
         // 判断订单是否满足条件
         $order = $this->db('slave')
             ->select('oid,state')
-            ->from('shs_order')
+            ->from('zbp_order')
             ->where('oid', $oid)
             ->where('buyer_uid', $uid)
             ->row();
@@ -132,7 +132,7 @@ class OrderFilled extends Common
         // 判断订单是否满足条件
         $order = $this->db('slave')
             ->select('oid,state')
-            ->from('shs_order')
+            ->from('zbp_order')
             ->where('oid', $oid)
             ->where('buyer_uid', $uid)
             ->row();
@@ -176,7 +176,7 @@ class OrderFilled extends Common
         // 判断订单是否满足条件
         $order = $this->db('slave')
                     ->select('oid,state')
-                    ->from('shs_order')
+                    ->from('zbp_order')
                     ->where('oid', $oid)
                     ->where('buyer_uid', $uid)
                     ->row();

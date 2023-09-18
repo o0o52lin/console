@@ -95,7 +95,7 @@ class Common extends Base
     {
         $config = $this->db('master')
                     ->select('value')
-                    ->from('shs_system_config')
+                    ->from('zbp_system_config')
                     ->where('`key`', 'activity_time_ranges_'.$period)
                     ->row();
 
@@ -114,7 +114,7 @@ class Common extends Base
     {
         return $this->db('master')
                     ->select('*')
-                    ->from('shs_goldcoin')
+                    ->from('zbp_goldcoin')
                     ->where('uid', $uid)
                     ->where('period', $this->period)
                     ->row();
@@ -142,19 +142,19 @@ class Common extends Base
             // 开始事务
             $this->db('master')->beginTransaction();
             
-            $user_goldcoin = $this->db('master')->select('uid,amount')->from('shs_goldcoin')->where([
+            $user_goldcoin = $this->db('master')->select('uid,amount')->from('zbp_goldcoin')->where([
                 'uid'=>$uid,
                 'period'=>$this->period
             ])->limit(1)->forUpdate()->row();
 
-            $user_task = $this->db('master')->select('*')->from('shs_goldcoin_task')->where([
+            $user_task = $this->db('master')->select('*')->from('zbp_goldcoin_task')->where([
                 'uid'=>$uid,
                 'period'=>$this->period,
                 'task_id'=>$tid,
                 'date'=>date('Ymd')
             ])->limit(1)->forUpdate()->row();
 
-            $gold_prepared = $this->db('master')->select('*')->from('shs_goldcoin_prepared')->where([
+            $gold_prepared = $this->db('master')->select('*')->from('zbp_goldcoin_prepared')->where([
                 'uid'=>$uid,
                 'period'=>$this->period,
                 'task_id'=>$tid
@@ -167,7 +167,7 @@ class Common extends Base
                 }else if($step == $daily_limit){
                     $step = $daily_limit;
                     $rs = $this->db('master')
-                        ->update('shs_goldcoin_task')
+                        ->update('zbp_goldcoin_task')
                         ->where('id', $user_task['id'])
                         ->set('step', $step)
                         ->set('state', 2)
@@ -176,7 +176,7 @@ class Common extends Base
                     $done = 1;
                 }else{
                     $rs = $this->db('master')
-                        ->update('shs_goldcoin_task')
+                        ->update('zbp_goldcoin_task')
                         ->where('id', $user_task['id'])
                         ->set('step', $step)
                         ->query();
@@ -186,7 +186,7 @@ class Common extends Base
                 }
             }else{
                 $rs = $this->db('master')
-                    ->insert('shs_goldcoin_task')
+                    ->insert('zbp_goldcoin_task')
                     ->cols([
                         'uid'=>$uid,
                         'task_id'=>$tid,
@@ -205,7 +205,7 @@ class Common extends Base
             // 更新金币为可领取
             $state = in_array($type, ['invite', 'order_filled', 'order_finished']) ? 1 : ($step >= $daily_limit ? 1 : 0);
             $rs = $this->db('master')
-                ->update('shs_goldcoin_prepared')
+                ->update('zbp_goldcoin_prepared')
                 ->where('id', $gold_prepared['id'])
                 ->setCols([
                     'amount'=>['op'=>'+', 'val'=>$amount],
@@ -218,7 +218,7 @@ class Common extends Base
             }
             if(in_array($type, ['invite', 'order_filled', 'order_finished'])){
                 $rs = $this->db('master')
-                    ->update('shs_goldcoin')
+                    ->update('zbp_goldcoin')
                     ->set('temp_amount', ['op'=>'+', 'val'=>$amount])
                     ->set('daily_'.$type, ['op'=>'+', 'val'=>$amount])
                     ->set('update_time', time())
@@ -228,7 +228,7 @@ class Common extends Base
                     ])->query();
             }else{
                 $rs = $this->db('master')
-                    ->update('shs_goldcoin')
+                    ->update('zbp_goldcoin')
                     ->set('temp_amount', ['op'=>'+', 'val'=>$amount])
                     ->set('update_time', time())
                     ->where([
@@ -262,7 +262,7 @@ class Common extends Base
     {
         $row = $this->db('slave')
             ->select('*')
-            ->from('shs_goldcoin_task_config')
+            ->from('zbp_goldcoin_task_config')
             ->where('`period` = "' . $this->period. '"')
             ->where('`type` = "' . $type. '"')
             ->row();

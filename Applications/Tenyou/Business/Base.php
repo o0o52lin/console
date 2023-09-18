@@ -80,7 +80,7 @@ abstract class Base
      * 业务定时器表(通用)
      * @var tasktimerTable
      */
-    protected $tasktimerTable = 'shs_tasktimer';
+    protected $tasktimerTable = 'zbp_tasktimer';
     
     /**
      * reRunTaskCallback
@@ -254,13 +254,13 @@ abstract class Base
         if(is_array($key) && !empty($key)){
             $rows = $this->db('slave')
                     ->select('`key`,`value`')
-                    ->from('shs_system_config')
+                    ->from('zbp_system_config')
                     ->where('`key` IN ("' . implode('","', $key) . '")')
                     ->query();
         }elseif (is_string($key)) {
             $rows = $this->db('slave')
                     ->select('`key`,`value`')
-                    ->from('shs_system_config')
+                    ->from('zbp_system_config')
                     ->where('`key` = "' . addslashes($key) . '"')
                     ->query();
         }
@@ -302,18 +302,18 @@ abstract class Base
         $data['is_run'] = 0;
         $data['step'] = intval($step);
         
-        $task = $this->db->select('id')->from('shs_tasktimer')
+        $task = $this->db->select('id')->from('zbp_tasktimer')
                     ->where('`type`=\''.addslashes($data['type']).'\' AND `uuid`="'.$data['uuid'].'"')
                     ->row();
         if(isset($task['id']) && $task['id'] > 0){
             // 已经存在相同的任务,确保任务开启
-            $this->db->update('shs_tasktimer')
+            $this->db->update('zbp_tasktimer')
                     ->set('is_open', 1)
                     ->where('`id`='.$task['id'].' AND `uuid`="'.$data['uuid'].'"')
                     ->query();
             return true;
         }
-        $rs = $this->db->insert('shs_tasktimer')->cols($data)->query();
+        $rs = $this->db->insert('zbp_tasktimer')->cols($data)->query();
         if ($rs) {
             return true;
         }

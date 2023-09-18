@@ -15,7 +15,7 @@ class Tasktimer extends Base
 	 * 定时任务表名
 	 * @var string
 	 */
-	private $table = 'shs_tasktimer';
+	private $table = 'zbp_tasktimer';
 	
 	/**
 	 * 触发业务请求
