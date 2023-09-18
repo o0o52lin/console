@@ -20,7 +20,7 @@ class Grab extends Base
     public function run($params)
     {
         $taskid = intval($params['taskid']);
-        $type = trim($params['uid']);
+        $type = trim($params['type']);
 
         if (!$this->checkTaskTimer($taskid, $params)) {
             return false;
