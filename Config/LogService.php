@@ -40,6 +40,6 @@ class LogService
      * 数据存储路径
      * @var string
      */
-    public static $dataPath = '/media/sf_htdocs/zhs_console/data/logs/';
+    public static $dataPath = '../data/logs/';
 	
 }
