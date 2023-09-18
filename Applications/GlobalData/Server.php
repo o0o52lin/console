@@ -200,6 +200,9 @@ class Server
         if(!$this->persistence){
             return;
         }
+        if(!is_dir(dirname($this->datapath))) {
+            mkdir(dirname($this->datapath));
+        }
         if(!is_file($this->datapath)){
             touch($this->datapath);
         }
