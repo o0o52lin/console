@@ -40,28 +40,33 @@ class Grab extends Base
                 $chk = $this->db('master')->select('*')->from('zbp_xianbao')->where([
                     'id'=>$value['id']
                 ])->limit(1)->forUpdate()->row();
-                $data = [
-                    'title' => $value['title'],
-                    'intro' => $value['content'],
-                    'catename' => $value['catename'],
-                    'comments' => $value['comments'],
-                    'uname' => $value['louzhu'],
-                    'origin_url' => $value['yuanurl'],
-                    'dateline' => $value['shijianchuo'],
-                ];
                 if($chk['id'] ?? 0){
                     $rs = $this->db('master')
                         ->update('zbp_xianbao')
-                        ->cols($data)
+                        ->set('title', $value['title'])
+                        ->set('intro', $value['content'])
+                        ->set('cateid', $value['cateid'])
+                        ->set('catename', $value['catename'])
+                        ->set('comments', $value['comments'])
+                        ->set('uname', $value['louzhu'])
+                        ->set('origin_url', $value['yuanurl'])
                         ->where('id', $chk['id'])
                         ->query();
                     if($rs < 1){
                         throw new \Exception($name.' 抓取失败1');
                     }
                 }else{
-                    $data['id'] = $value['id'];
-                    $data['cateid'] = $value['cateid'];
-                    $data['dateline'] = $value['shijianchuo'];
+                    $data = [
+                        'id' => $value['id'],
+                        'title' => $value['title'],
+                        'intro' => $value['content'],
+                        'cateid' => $value['cateid'],
+                        'catename' => $value['catename'],
+                        'comments' => $value['comments'],
+                        'uname' => $value['louzhu'],
+                        'origin_url' => $value['yuanurl'],
+                        'dateline' => $value['shijianchuo'],
+                    ];
                     $rs = $this->db('master')
                         ->insert('zbp_xianbao')
                         ->cols($data)->query();
