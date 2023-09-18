@@ -20,6 +20,7 @@ if(!extension_loaded('posix'))
 
 // 标记是全局启动
 define('GLOBAL_START', 1);
+define('ROOT_DIR', __DIR__);
 
 require_once __DIR__ . '/Workerman/Autoloader.php';
 

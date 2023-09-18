@@ -40,6 +40,6 @@ class LogService
      * 数据存储路径
      * @var string
      */
-    public static $dataPath = '../data/logs/';
+    public static $dataPath = ROOT_DIR.'/data/logs/';
 	
 }
