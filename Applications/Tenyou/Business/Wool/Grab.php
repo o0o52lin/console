@@ -23,7 +23,7 @@ class Grab extends Base
         $type = intval($params['type']);
         $url = trim($params['url']);
         $name = trim($params['name']);
-
+        $intval = intval($params['interval'] ?? 30);
         if (!$this->checkTaskTimer($taskid, $params)) {
             return false;
         }
@@ -70,6 +70,23 @@ class Grab extends Base
                     $rs = $this->db('master')
                         ->insert('zbp_xianbao')
                         ->cols($data)->query();
+                    if($rs < 1){
+                        throw new \Exception($name.' 抓取失败2');
+                    }
+                }
+                if($type >= 1001){
+                    $tid = $type-1000;
+                    $this->db->where('`type`='.$tid)
+                        ->delete('zbp_xianbao_collect')
+                        ->query();
+
+                    $rs = $this->db('master')
+                        ->insert('zbp_xianbao_collect')
+                        ->cols([
+                            'type'=>$tid,
+                            'xbid'=>$value['id']
+                        ])->query();
+                        
                     if($rs < 1){
                         throw new \Exception($name.' 抓取失败2');
                     }
