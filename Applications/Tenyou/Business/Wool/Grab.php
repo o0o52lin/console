@@ -33,6 +33,7 @@ class Grab extends Base
         if($type && $url){
             $res = $http->get($url);
             $json = json_decode($res, true);
+            $json = is_array($json) ? $json : [];
             foreach ($json as $key => $value) {
                 if(mb_strlen($value['title'], 'UTF-8') <= 3) continue;
 
@@ -51,8 +52,8 @@ class Grab extends Base
                 if($chk['id'] ?? 0){
                     $rs = $this->db('master')
                         ->update('zbp_xianbao')
-                        ->where('id', $chk['id'])
                         ->cols($data)
+                        ->where('id', $chk['id'])
                         ->query();
                     if($rs < 1){
                         throw new \Exception($name.' 抓取失败1');
