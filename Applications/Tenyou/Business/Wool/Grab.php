@@ -34,6 +34,12 @@ class Grab extends Base
             $res = $http->get($url);
             $json = json_decode($res, true);
             $json = is_array($json) ? $json : [];
+            if($type >= 1001){
+                $tid = $type-1000;
+                $this->db->where('`type`='.$tid)
+                    ->delete('zbp_xianbao_collect')
+                    ->query();
+            }
             foreach ($json as $key => $value) {
                 if(mb_strlen($value['title'] ?? '', 'UTF-8') <= 3) continue;
 
@@ -75,11 +81,6 @@ class Grab extends Base
                     }
                 }
                 if($type >= 1001){
-                    $tid = $type-1000;
-                    $this->db->where('`type`='.$tid)
-                        ->delete('zbp_xianbao_collect')
-                        ->query();
-
                     $rs = $this->db('master')
                         ->insert('zbp_xianbao_collect')
                         ->cols([
