@@ -23,7 +23,7 @@ class Grab extends Base
         $type = intval($params['type']);
         $url = trim($params['url'] ?? '');
         $name = trim($params['name']);
-        $intval = intval($params['interval'] ?? 30);
+        $interval = intval($params['interval'] ?? 30);
         if (!$this->checkTaskTimer($taskid, $params)) {
             return false;
         }
@@ -94,7 +94,7 @@ class Grab extends Base
                 }
             }
         }
-        $this->reRunTaskTimer($taskid, time()+6);
+        $this->reRunTaskTimer($taskid, time()+$interval);
         return true;
     }
     
