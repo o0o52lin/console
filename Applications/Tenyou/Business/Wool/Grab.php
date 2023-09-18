@@ -20,7 +20,9 @@ class Grab extends Base
     public function run($params)
     {
         $taskid = intval($params['taskid']);
-        $type = trim($params['type']);
+        $type = intval($params['type']);
+        $url = trim($params['url']);
+        $name = trim($params['name']);
 
         if (!$this->checkTaskTimer($taskid, $params)) {
             return false;
@@ -28,9 +30,8 @@ class Grab extends Base
 
         $http = new Http();
 
-        if($type == 'xiaodigu'){
-            //http://new.xianbao.fun/plus/json/push_11.json 
-            $res = $http->get('http://new.xianbao.fun/plus/json/push_11.json');
+        if($type && $url){
+            $res = $http->get($url);
             $json = json_decode($res, true);
             foreach ($json as $key => $value) {
                 if(mb_strlen($value['title'], 'UTF-8') <= 3) continue;
@@ -54,7 +55,7 @@ class Grab extends Base
                         ->cols($data)
                         ->query();
                     if($rs < 1){
-                        throw new \Exception($this->credit_name.'任务更新失败1');
+                        throw new \Exception($name.' 抓取失败1');
                     }
                 }else{
                     $data['id'] = $value['id'];
@@ -64,7 +65,7 @@ class Grab extends Base
                         ->insert('zbp_xianbao')
                         ->cols($data)->query();
                     if($rs < 1){
-                        throw new \Exception($this->credit_name.'任务更新失败2');
+                        throw new \Exception($name.' 抓取失败2');
                     }
                 }
             }
