@@ -31,9 +31,7 @@ class Tasktimer extends Base
 		do{
 			$this->db('slave')->select('id,type,params,uuid,trigger_time')->from($this->table);
 			$this->db('slave')->where('`id`>'.$minid.' AND `is_open`=1 AND `is_run`=0 AND err_num<5 AND `trigger_time`<='.$now);
-			if($sec < 10){ // 每个整点前10秒只处理活动上线等重要业务，避免活动上线延迟
-				$this->db('slave')->where('`type` IN ("Business\\\Goods\\\AfterAdditionOnline","Business\\\Goods\\\AfterOnline","Business\\\Order\\\ReserveTaskOpen","Business\\\Order\\\Add","Business\\\Order\\\AfterFilledTradeNo","Business\\\Order\\\AfterFinish")');
-			}
+
 			$timers = $this->db('slave')->orderBy(array('id ASC'))->limit(200)->query();
 			if(!is_array($timers) OR empty($timers)){
 				break;
