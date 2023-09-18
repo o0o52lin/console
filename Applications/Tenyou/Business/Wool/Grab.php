@@ -3,6 +3,7 @@
 namespace Business\Wool;
 
 use Library\Http;
+use Business\Base;
 
 /**
  * 填写订单后获得金币业务
