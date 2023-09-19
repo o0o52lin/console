@@ -5,11 +5,10 @@ namespace Timer;
 use Timer\Base;
 
 /**
- * 用户通用定时器
- * @author 关小龙
+ * 最新10条线报
  * @since 2017-05-27
  */
-class UserTasktimer extends Base
+class NewestTasktimer extends Base
 {
     /**
      * 定时任务表名

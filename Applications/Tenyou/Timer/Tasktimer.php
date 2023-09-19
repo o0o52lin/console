@@ -37,8 +37,16 @@ class Tasktimer extends Base
 				break;
 			}
 			foreach ($timers as $v){
-				$minid = $v['id']; 
-				$this->call($v['type'], array_merge( json_decode($v['params'],TRUE), array('taskid'=>$v['id']) )); //把taskid数组放在后面，避免被设置参数覆盖
+				$minid = $v['id'];
+				$ps = json_decode($v['params'],TRUE);
+				if(($ps['type'] ?? -1) === 0){
+					$this->call('Business\\Wool\\GrabNewest', array_merge($ps, array('taskid'=>$v['id']) ));
+				}else if(($ps['type'] ?? -1) > 1000){
+					$this->call('Business\\Wool\\GrabRank', array_merge($ps, array('taskid'=>$v['id']) ));
+				}else{
+					$this->call($v['type'], array_merge($ps, array('taskid'=>$v['id']) ));
+				}
+				
 			}
 			$j += 1;
 		}while ($j < 100);
