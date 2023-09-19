@@ -30,6 +30,8 @@ class Grab extends Base
 
         $http = new Http();
 
+        $data_count = 0;
+
         if($url){
             $http->timeout = 10;
             $cookie = 'night=0; __51cke__=; timezone=8; __tins__21467067=%7B%22sid%22%3A%201695085348334%2C%20%22vd%22%3A%201%2C%20%22expires%22%3A%201695087148334%7D; __51laig__=11';
@@ -39,6 +41,7 @@ class Grab extends Base
             ])->get($url, $cookie);
             $json = json_decode($res, true);
             $json = is_array($json) ? $json : [];
+            $data_count = count($json);
             if($type >= 1001){
                 $tid = $type-1000;
                 $this->db->where('`type`='.$tid)
@@ -101,7 +104,7 @@ class Grab extends Base
         }
         $this->reRunTaskTimer($taskid, time()+$interval);
         $param_str = str_replace([' => ', ' ( '], ['=>', '('], preg_replace('/\s+/', ' ', var_export($params, true)));
-        $this->log('处理(编号:' . $taskid  . ')业务结束:参数：' . $param_str);
+        $this->log('处理(编号:' . $taskid  . ')业务结束 => '.$data_count.'条数据 => 参数：' . $param_str);
         return true;
     }
     
