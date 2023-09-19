@@ -100,7 +100,8 @@ class Grab extends Base
             }
         }
         $this->reRunTaskTimer($taskid, time()+$interval);
-        $this->log('处理'. $this->tasktimerTable . '业务结束:' . $type . ',任务编号:' . $taskid . ',参数：' . $param_str);
+        $param_str = str_replace([' => ', ' ( '], ['=>', '('], preg_replace('/\s+/', ' ', var_export($params, true)));
+        $this->log('处理(编号:' . $taskid  . ')业务结束:参数：' . $param_str);
         return true;
     }
     
