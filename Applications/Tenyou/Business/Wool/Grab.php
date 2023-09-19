@@ -55,11 +55,12 @@ class Grab extends Base
                         'id'=>$value['id']
                     ])->limit(1)->forUpdate()->row();
                     $url = str_replace('`','', $value['yuanurl']);
+                    $content = preg_replace('/( ?qita=\{.*)$/', '', $value['content']);
                     if($chk['id'] ?? 0){
                         $rs = $this->db('master')
                             ->update('zbp_xianbao')
                             ->set('title', $value['title'])
-                            ->set('intro', $value['content'])
+                            ->set('intro', $content)
                             ->set('cateid', $value['cateid'])
                             ->set('catename', $value['catename'])
                             ->set('comments', $value['comments'])
@@ -74,7 +75,7 @@ class Grab extends Base
                         $data = [
                             'id' => $value['id'],
                             'title' => $value['title'],
-                            'intro' => $value['content'],
+                            'intro' => $content,
                             'cateid' => $value['cateid'],
                             'catename' => $value['catename'],
                             'comments' => $value['comments'],
