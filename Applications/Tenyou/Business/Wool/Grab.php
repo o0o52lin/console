@@ -54,6 +54,7 @@ class Grab extends Base
                 $chk = $this->db('master')->select('*')->from('zbp_xianbao')->where([
                     'id'=>$value['id']
                 ])->limit(1)->forUpdate()->row();
+                $url = str_replace('`','', $value['yuanurl']);
                 if($chk['id'] ?? 0){
                     $rs = $this->db('master')
                         ->update('zbp_xianbao')
@@ -63,7 +64,7 @@ class Grab extends Base
                         ->set('catename', $value['catename'])
                         ->set('comments', $value['comments'])
                         ->set('uname', $value['louzhu'])
-                        ->set('origin_url', $value['yuanurl'])
+                        ->set('origin_url', $url)
                         ->where('id', $chk['id'])
                         ->query();
                     if($rs < 1){
@@ -78,7 +79,7 @@ class Grab extends Base
                         'catename' => $value['catename'],
                         'comments' => $value['comments'],
                         'uname' => $value['louzhu'],
-                        'origin_url' => $value['yuanurl'],
+                        'origin_url' => $url,
                         'dateline' => $value['shijianchuo'],
                     ];
                     $rs = $this->db('master')
