@@ -2,6 +2,8 @@
 
 namespace Library;
 
+use Library\Log;
+
 /**
  *  Global data client.
  *  @version 1.0.1
@@ -86,6 +88,7 @@ class GlobalDataClient
             $connection = stream_socket_client("tcp://{$this->_globalServers[$offset]}", $code, $msg, $this->timeout);
             if(!$connection)
             {
+                Log::add("tcp://{$this->_globalServers[$offset]}");
                 throw new \Exception($msg);
             }
             stream_set_timeout($connection, $this->timeout);
