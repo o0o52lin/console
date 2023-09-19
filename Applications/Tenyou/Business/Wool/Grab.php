@@ -32,7 +32,11 @@ class Grab extends Base
 
         if($url){
             $http->timeout = 10;
-            $res = $http->get($url);
+            $cookie = 'night=0; __51cke__=; timezone=8; __tins__21467067=%7B%22sid%22%3A%201695085348334%2C%20%22vd%22%3A%201%2C%20%22expires%22%3A%201695087148334%7D; __51laig__=11';
+            $res = $http->header([
+                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+                'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
+            ])->get($url, $cookie);
             $json = json_decode($res, true);
             $json = is_array($json) ? $json : [];
             if($type >= 1001){
@@ -96,6 +100,7 @@ class Grab extends Base
             }
         }
         $this->reRunTaskTimer($taskid, time()+$interval);
+        $this->log('处理'. $this->tasktimerTable . '业务结束:' . $type . ',任务编号:' . $taskid . ',参数：' . $param_str);
         return true;
     }
     
