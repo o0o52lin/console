@@ -598,12 +598,12 @@ class Worker
 
         // Pid file.
         if (empty(static::$pidFile)) {
-            static::$pidFile = __DIR__ . "/../$unique_prefix.pid";
+            static::$pidFile = __DIR__ . "/$unique_prefix.pid";
         }
 
         // Log file.
         if (empty(static::$logFile)) {
-            static::$logFile = __DIR__ . '/../workerman.log';
+            static::$logFile = __DIR__ . '/workerman.log';
         }
         $log_file = (string)static::$logFile;
         if (!\is_file($log_file)) {
