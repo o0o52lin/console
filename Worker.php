@@ -664,7 +664,7 @@ class Worker
             return;
         }
 
-        static::$_statisticsFile =  static::$statusFile ? static::$statusFile : __DIR__ . '/../workerman-' .posix_getpid().'.status';
+        static::$_statisticsFile =  static::$statusFile ? static::$statusFile : __DIR__ . '/workerman-' .posix_getpid().'.status';
 
         foreach (static::$_workers as $worker) {
             // Worker name.
@@ -943,7 +943,7 @@ class Worker
             exit;
         }
 
-        $statistics_file =  static::$statusFile ? static::$statusFile : __DIR__ . "/../workerman-$master_pid.$command";
+        $statistics_file =  static::$statusFile ? static::$statusFile : __DIR__ . "/workerman-$master_pid.$command";
 
         // execute command.
         switch ($command) {
