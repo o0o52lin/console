@@ -7,6 +7,7 @@ use Workerman\Business\Wool\GrabNewest;
 use Workerman\Business\Wool\GrabRank;
 use Workerman\Library\Db;
 use Workerman\Library\Log;
+use Workerman\Config\Croner;
 use Workerman\Config\Gateway;
 use Workerman\Config\Database;
 use Workerman\Config\GlobalData;
@@ -16,8 +17,8 @@ use Workerman\Lib\Timer;
 use Workerman\Business\Croner\Base as CronerBase;
 
 $worker = new Worker();
-// $worker->count = 2;
-$worker->name = 'Cron-Worker';
+$worker->count = Croner::$worker_count;
+$worker->name = Croner::$worker_name;
 
 // 设置时区，避免运行结果与预期不一致
 date_default_timezone_set('PRC');

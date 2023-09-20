@@ -56,12 +56,14 @@ class Grab extends Base
                         'id'=>$value['id']
                     ])->limit(1)->forUpdate()->row();
                     $url = str_replace('`','', $value['yuanurl']);
-                    $content = preg_replace('/( ?qita=\{.*)$/', '', $value['content']);
+                    $intro = preg_replace('/( ?qita=\{.*)$/', '', $value['content']);
+                    $content = '';
                     if($chk['id'] ?? 0){
+                        $content = trim($value['content'] ?? '');
                         $rs = $this->db('master')
                             ->update('zbp_xianbao')
                             ->set('title', $value['title'])
-                            ->set('intro', $content)
+                            ->set('intro', $intro)
                             ->set('cateid', $value['cateid'])
                             ->set('catename', $value['catename'])
                             ->set('comments', $value['comments'])
@@ -76,7 +78,7 @@ class Grab extends Base
                         $data = [
                             'id' => $value['id'],
                             'title' => $value['title'],
-                            'intro' => $content,
+                            'intro' => $intro,
                             'cateid' => $value['cateid'],
                             'catename' => $value['catename'],
                             'comments' => $value['comments'],
@@ -90,6 +92,17 @@ class Grab extends Base
                         if($rs < 1){
                             throw new \Exception($name.' 抓取失败2');
                         }
+                    }
+                    if($content == ''){
+                        $cps = [
+                            'id' => $value['id'],
+                            'type' => $type,
+                            'name' => $name,
+                            'url' => $value['url'],
+                        ];
+                        $this->asyncCall('Business\\Wool\\GrabContent', $cps, function($ps, $ret){
+                            // $this->log('GrabContent from Grab:' . json_encode($ret));
+                        }); 
                     }
                     if($type >= 1001){
                         $rs = $this->db('master')

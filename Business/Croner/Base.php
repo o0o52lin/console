@@ -139,11 +139,10 @@ abstract class Base
     /**
      * 异步请求业务处理
      * @param string $class 业务类名(带命名空间，如：Webservice\User\GetMoney)
-     * @param string $method 业务方法名
      * @param array $params 请求参数
      * @param mix $callback 成功后回调函数
      */
-    protected function asyncCall($class, $method, $params, $callback = null)
+    protected function asyncCall($class, $params, $callback = null)
     {
         $now = time();
         // 请求业务处理参数

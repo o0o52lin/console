@@ -19,6 +19,7 @@ use Workerman\Crontab\Crontab;
 use Workerman\Business\Wool\Grab;
 use Workerman\Business\Wool\GrabNewest;
 use Workerman\Business\Wool\GrabRank;
+use Workerman\Business\Wool\GrabContent;
 
 /**
  * 主逻辑
@@ -85,45 +86,56 @@ class MessageEvents
             //     self::$instances[$data['class']] = $instance;
             // }
             // $ret = call_user_func(array($instance,$data['method']), $data['params']);
+            if($data['client'] == 'croner'){
+                $ps = $data['params'];
+                $tid = $ps['taskid'];
+                $interval = intval($ps['interval'] ?? 5);
 
-            $ps = $data['params'];
-            $tid = $ps['taskid'];
-            $interval = intval($ps['interval'] ?? 5);
+                $log = $ps['name'].' => '.date('Y-m-d H:i:s').' : '.date('Y-m-d H:i:s', time()+$interval).' 执行 '.':'.$interval."\n";
+                if($ps['type'] === 0){
+                    echo $log;
+                    Log::add($log);
+                    new Crontab('*/'.$interval.' * * * * *', function() use ($tid, $ps, $interval, $client_id, $call_id) {
+                        echo date('Y-m-d H:i:s').' '.$ps['name'].':'.$interval."\n";
+                        $a = new GrabNewest();
+                        $ret = $a->run(array_merge($ps, ['taskid'=>$tid]));
+                        
+                        // 发送数据给客户端，调用成功，data下标对应的元素即为调用结果
+                        return self::response($client_id, array('code'=>0,'msg'=>'ok','call_id'=>$call_id,'data'=>$ret));
+                    });
+                }else if($ps['type'] > 1000){
+                    echo $log;
+                    Log::add($log);
+                    new Crontab('*/'.$interval.' * * * * *', function() use ($tid, $ps, $interval, $client_id, $call_id) {
+                        echo date('Y-m-d H:i:s').' '.$ps['name'].':'.$interval."\n";
+                        $a = new GrabRank();
+                        $ret = $a->run(array_merge($ps, ['taskid'=>$tid]));
+                        
+                        // 发送数据给客户端，调用成功，data下标对应的元素即为调用结果
+                        return self::response($client_id, array('code'=>0,'msg'=>'ok','call_id'=>$call_id,'data'=>$ret));
+                    });
+                }else{
+                    echo $log;
+                    Log::add($log);
+                    new Crontab('*/'.$interval.' * * * * *', function() use ($tid, $ps, $interval, $client_id, $call_id) {
+                        echo date('Y-m-d H:i:s').' '.$ps['name'].':'.$interval."\n";
+                        $a = new Grab();
+                        $ret = $a->run(array_merge($ps, ['taskid'=>$tid]));
 
-            $log = $ps['name'].' => '.date('Y-m-d H:i:s').' : '.date('Y-m-d H:i:s', time()+$interval).' 执行 '.':'.$interval."\n";
-            if($ps['type'] === 0){
-                echo $log;
-                Log::add($log);
-                new Crontab('*/'.$interval.' * * * * *', function() use ($tid, $ps, $interval, $client_id, $call_id) {
-                    echo date('Y-m-d H:i:s').' '.$ps['name'].':'.$interval."\n";
-                    $a = new GrabNewest();
-                    $ret = $a->run(array_merge($ps, ['taskid'=>$tid]));
-                    
-                    // 发送数据给客户端，调用成功，data下标对应的元素即为调用结果
-                    return self::response($client_id, array('code'=>0,'msg'=>'ok','call_id'=>$call_id,'data'=>$ret));
-                });
-            }else if($ps['type'] > 1000){
-                echo $log;
-                Log::add($log);
-                new Crontab('*/'.$interval.' * * * * *', function() use ($tid, $ps, $interval, $client_id, $call_id) {
-                    echo date('Y-m-d H:i:s').' '.$ps['name'].':'.$interval."\n";
-                    $a = new GrabRank();
-                    $ret = $a->run(array_merge($ps, ['taskid'=>$tid]));
-                    
-                    // 发送数据给客户端，调用成功，data下标对应的元素即为调用结果
-                    return self::response($client_id, array('code'=>0,'msg'=>'ok','call_id'=>$call_id,'data'=>$ret));
-                });
-            }else{
-                echo $log;
-                Log::add($log);
-                new Crontab('*/'.$interval.' * * * * *', function() use ($tid, $ps, $interval, $client_id, $call_id) {
-                    echo date('Y-m-d H:i:s').' '.$ps['name'].':'.$interval."\n";
-                    $a = new Grab();
-                    $ret = $a->run(array_merge($ps, ['taskid'=>$tid]));
+                        // 发送数据给客户端，调用成功，data下标对应的元素即为调用结果
+                        return self::response($client_id, array('code'=>0,'msg'=>'ok','call_id'=>$call_id,'data'=>$ret));
+                    });
+                }
+            }else if($data['client'] == 'business'){
+                $ps = $data['params'];
+                $id = $ps['id'];
 
-                    // 发送数据给客户端，调用成功，data下标对应的元素即为调用结果
-                    return self::response($client_id, array('code'=>0,'msg'=>'ok','call_id'=>$call_id,'data'=>$ret));
-                });
+                echo date('Y-m-d H:i:s').' 获取内容:id:'.$id."\n";
+                $a = new GrabContent();
+                $ret = $a->run($ps);
+                
+                // 发送数据给客户端，调用成功，data下标对应的元素即为调用结果
+                return self::response($client_id, array('code'=>0,'msg'=>'ok','call_id'=>$call_id,'data'=>$ret));
             }
 
         }        // 有异常

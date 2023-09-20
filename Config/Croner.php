@@ -8,40 +8,16 @@ namespace Workerman\Config;
 class Croner
 {
     /**
-     * 定时任务模块
-     * @var array( <br />
-     *      业务模块名1=>'时间间隔(秒)',  #从现在开始重复执行业务(无结束时间)，时隔时间为0表示任务不可用<br />
-     *      业务模块名2=>array('start'=>'执行时间', 'once'=>'一次性任务'), 指定'执行时间'一次性任务<br />
-     *      业务模块名3=>array('start'=>'开始时间', 'interval'=>'时间间隔（秒）'), 从'开始时间'按照'时间间隔'重复执行任务<br />
-     *      业务模块名4=>array('end'=>'结束时间', 'interval'=>'时间间隔（秒）'),从现在开始到'结束时间'，按照'时间间隔'重复执行任务 <br />
-     *      业务模块名5=>array('start'=>'开始时间', 'end'=>'结束时间' 'interval'=>时间间隔（秒）), 从'开始时间'到'结束时间'周期内按照'时间间隔'重复执行任务<br />
-     * ) <br />
-     * 
-     * @uses array( <br />
-     *      业务模块名0=>0, 任务不可用<br />
-     *      业务模块名1=>3, 每隔3秒执行一次<br />
-     *      业务模块名2=>array('start'=>'2018-10-01 00:00:00', 'once'=>1), 2018-10-01 零点执行一次<br />
-     *      业务模块名3=>array('start'=>'2018-07-01', 'interval'=>2), 从2018-07-01起，每隔2秒钟执行一次<br />
-     *      业务模块名4=>array('end'=>'2019-01-01', 'interval'=>2), 从现在开始每隔2秒执行一次直到2019-01-01后不再执行<br />
-     *      业务模块名5=>array('start'=>'2018-06-01 08:25:05', 'end'=>'2018-08-06 20:50:08', 'interval'=>2), 从2018-06-01 08:25:05到2018-08-06 20:50:08每隔2秒执行一次<br />
-     * ) <br />
-     */
-    public static $modules = array(
-        
-        'Tasktimer'=>1, //业务定时器表(通用)
-    );
-    
-    /**
      * 进程名
      * @var string
      */
-    public static $worker_name = 'TimerWorker';
+    public static $worker_name = 'Cron-Worker';
     
     /**
      * 进程数
      * @var string
      */
-    public static $worker_count = 4;
+    public static $worker_count = 1;
     
     /**
      * 向网关发送数据时使用些签名加密，以便业务端验证来源合法性

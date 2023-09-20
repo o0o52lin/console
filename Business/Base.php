@@ -7,6 +7,7 @@ use Workerman\Library\Db;
 use Workerman\Library\Log;
 use Workerman\Config\Database;
 use Workerman\Config\Gateway;
+use Workerman\Connection\AsyncTcpConnection;
 
 /**
  * 业务处理基类
@@ -139,11 +140,11 @@ abstract class Base
      * @param array $params 请求参数
      * @param mix $callback 成功后回调函数
      */
-    protected function asyncCall($class, $method, $params, $callback = null)
+    protected function asyncCall($class, $params, $callback = null)
     {
-        $sign = md5($class.$method.json_encode($params).Gateway::$client_sign['business']);
+        $sign = md5($class.'run'.json_encode($params).Gateway::$client_sign['business']);
         // 请求业务处理参数
-        $dataString = json_encode(array('class'=>$class, 'method'=>$method,'params'=>$params,'client'=>'business','sign'=>$sign ));
+        $dataString = json_encode(array('class'=>$class, 'method'=>'run','params'=>$params,'client'=>'business','sign'=>$sign ));
         
         // 判断业务是否正在处理中
         $call_id = md5($dataString);

@@ -24,7 +24,7 @@ class Gateway
      * 进程数
      * @var string
      */
-    public static $worker_count = 4;
+    public static $worker_count = 8;
     
     /**
      * 网关协议
