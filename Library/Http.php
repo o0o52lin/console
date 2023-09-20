@@ -1,6 +1,6 @@
 <?php
 
-namespace Library;
+namespace Workerman\Library;
 
 /**
  * HTTP请求类库

@@ -11,9 +11,9 @@
  * @link      http://www.workerman.net/
  * @license   http://www.opensource.org/licenses/mit-license.php MIT License
  */
-namespace GatewayWorker\Lib;
+namespace Workerman\GatewayWorker\Lib;
 
-use Config\Db as DbConfig;
+use Workerman\Config\Db as DbConfig;
 use Exception;
 
 /**

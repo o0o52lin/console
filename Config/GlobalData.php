@@ -1,6 +1,6 @@
 <?php
 
-namespace Config;
+namespace Workerman\Config;
 
 /**
  * GlobalData变量共享组件配置
@@ -30,5 +30,5 @@ class GlobalData
      * 数据持久化文件路径
      * @var string
      */
-    public static $datapath = ROOT_DIR.'/Applications/GlobalData/data/cache.php';
+    public static $datapath = ROOT_DIR.'/Business/GlobalData/data/cache.php';
 }

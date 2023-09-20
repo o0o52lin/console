@@ -1,6 +1,6 @@
 <?php
 
-namespace Library;
+namespace Workerman\Library;
 
 /**
  * 日志类

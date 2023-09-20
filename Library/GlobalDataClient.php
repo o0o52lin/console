@@ -1,8 +1,10 @@
 <?php
 
-namespace Library;
+namespace Workerman\Library;
 
-use Library\Log;
+use Workerman\Library\Log;
+use Workerman\Config\GlobalData;
+use Workerman\Lib\Timer;
 
 /**
  *  Global data client.
@@ -66,7 +68,7 @@ class GlobalDataClient
     public static function getInstance()
     {
         if(!isset(self::$instance) OR !self::$instance){
-            self::$instance = new self(\Config\GlobalData::$address.':'.\Config\GlobalData::$port);
+            self::$instance = new self(GlobalData::$address.':'.GlobalData::$port);
         }
         return self::$instance;
     }
@@ -82,7 +84,6 @@ class GlobalDataClient
         {
             $offset = -$offset;
         }
-        
         if(!isset($this->_globalConnections[$offset]) || feof($this->_globalConnections[$offset]))
         {
             $connection = stream_socket_client("tcp://{$this->_globalServers[$offset]}", $code, $msg, $this->timeout);
@@ -92,15 +93,15 @@ class GlobalDataClient
                 throw new \Exception($msg);
             }
             stream_set_timeout($connection, $this->timeout);
-            if(class_exists('\Workerman\Lib\Timer') && php_sapi_name() === 'cli')
+            if(class_exists('Workerman\\Lib\\Timer') && php_sapi_name() === 'cli')
             {
-                $timer_id = \Workerman\Lib\Timer::add($this->pingInterval, function($connection)use(&$timer_id)
+                $timer_id = Timer::add($this->pingInterval, function($connection)use(&$timer_id)
                 {
                     $buffer = pack('N', 8)."ping";
                     if(strlen($buffer) !== @fwrite($connection, $buffer))
                     {
                         @fclose($connection);
-                        \Workerman\Lib\Timer::del($timer_id);
+                        Timer::del($timer_id);
                     }
                 }, array($connection));
             }

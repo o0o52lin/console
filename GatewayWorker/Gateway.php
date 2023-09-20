@@ -11,9 +11,9 @@
  * @link      http://www.workerman.net/
  * @license   http://www.opensource.org/licenses/mit-license.php MIT License
  */
-namespace GatewayWorker;
+namespace Workerman\GatewayWorker;
 
-use GatewayWorker\Lib\Context;
+use Workerman\GatewayWorker\Lib\Context;
 
 use Workerman\Connection\TcpConnection;
 
@@ -21,7 +21,7 @@ use Workerman\Worker;
 use Workerman\Lib\Timer;
 use Workerman\Autoloader;
 use Workerman\Connection\AsyncTcpConnection;
-use GatewayWorker\Protocols\GatewayProtocol;
+use Workerman\GatewayWorker\Protocols\GatewayProtocol;
 
 /**
  *
@@ -486,8 +486,8 @@ class Gateway extends Worker
             Timer::add(self::PERSISTENCE_CONNECTION_PING_INTERVAL, array($this, 'pingBusinessWorker'));
         }
 
-        if (!class_exists('\Protocols\GatewayProtocol')) {
-            class_alias('GatewayWorker\Protocols\GatewayProtocol', 'Protocols\GatewayProtocol');
+        if (!class_exists('Workerman\Protocols\GatewayProtocol')) {
+            class_alias('Workerman\GatewayWorker\Protocols\GatewayProtocol', 'Workerman\Protocols\GatewayProtocol');
         }
 
         // 初始化 gateway 内部的监听，用于监听 worker 的连接已经连接上发来的数据

@@ -1,5 +1,5 @@
 <?php
-namespace GatewayWorker\Lib;
+namespace Workerman\GatewayWorker\Lib;
 
 use Exception;
 use PDO;

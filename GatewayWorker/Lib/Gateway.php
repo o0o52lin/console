@@ -11,10 +11,10 @@
  * @link      http://www.workerman.net/
  * @license   http://www.opensource.org/licenses/mit-license.php MIT License
  */
-namespace GatewayWorker\Lib;
+namespace Workerman\GatewayWorker\Lib;
 
 use Exception;
-use GatewayWorker\Protocols\GatewayProtocol;
+use Workerman\GatewayWorker\Protocols\GatewayProtocol;
 use Workerman\Connection\TcpConnection;
 
 /**
@@ -1293,7 +1293,7 @@ class Gateway
     /**
      * 设置 gateway 实例
      *
-     * @param \GatewayWorker\BusinessWorker $business_worker_instance
+     * @param Workerman\GatewayWorker\BusinessWorker $business_worker_instance
      */
     public static function setBusinessWorker($business_worker_instance)
     {
@@ -1356,6 +1356,6 @@ class Gateway
     }
 }
 
-if (!class_exists('\Protocols\GatewayProtocol')) {
-    class_alias('GatewayWorker\Protocols\GatewayProtocol', 'Protocols\GatewayProtocol');
+if (!class_exists('Workerman\Protocols\GatewayProtocol')) {
+    class_alias('Workerman\GatewayWorker\Protocols\GatewayProtocol', 'Workerman\Protocols\GatewayProtocol');
 }

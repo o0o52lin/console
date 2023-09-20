@@ -11,7 +11,7 @@
  * @link      http://www.workerman.net/
  * @license   http://www.opensource.org/licenses/mit-license.php MIT License
  */
-namespace GatewayWorker;
+namespace Workerman\GatewayWorker;
 
 use Workerman\Worker;
 use Workerman\Lib\Timer;

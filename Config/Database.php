@@ -1,9 +1,8 @@
 <?php 
-namespace Config;
+namespace Workerman\Config;
 
 /**
  * MySQL数据库配置
- * @author minch<yeah@minch.me>
  */
 class Database
 {
@@ -24,7 +23,7 @@ class Database
 		'port'		=> '3306',
 		'user'		=> 'root',
 		'password'	=> '111111',
-		'dbname'	=> 'mall',
+		'dbname'	=> 'zblog',
 		'charset'	=> 'utf8',
 	);
 	
@@ -37,7 +36,7 @@ class Database
 		'port'		=> '3306',
 		'user'		=> 'root',
 		'password'	=> '111111',
-		'dbname'	=> 'mall',
+		'dbname'	=> 'zblog',
 		'charset'	=> 'utf8',
 	);
 }

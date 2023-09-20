@@ -11,15 +11,16 @@
  * @link      http://www.workerman.net/
  * @license   http://www.opensource.org/licenses/mit-license.php MIT License
  */
-namespace GatewayWorker;
+namespace Workerman\GatewayWorker;
 
 use Workerman\Connection\TcpConnection;
 
 use Workerman\Worker;
 use Workerman\Lib\Timer;
 use Workerman\Connection\AsyncTcpConnection;
-use GatewayWorker\Protocols\GatewayProtocol;
-use GatewayWorker\Lib\Context;
+use Workerman\GatewayWorker\Protocols\GatewayProtocol;
+use Workerman\GatewayWorker\Lib\Context;
+use Workerman\GatewayWorker\Lib\Gateway as LGateway;
 
 /**
  *
@@ -49,7 +50,7 @@ class BusinessWorker extends Worker
      *
      * @var string
      */
-    public $eventHandler = 'Events';
+    public $eventHandler = 'Workerman\\Business\\MessageEvents';
 
     /**
      * 业务超时时间，可用来定位程序卡在哪里
@@ -204,8 +205,8 @@ class BusinessWorker extends Worker
      */
     protected function onWorkerStart()
     {
-        if (!class_exists('\Protocols\GatewayProtocol')) {
-            class_alias('GatewayWorker\Protocols\GatewayProtocol', 'Protocols\GatewayProtocol');
+        if (!class_exists('Workerman\Protocols\GatewayProtocol')) {
+            class_alias('Workerman\GatewayWorker\Protocols\GatewayProtocol', 'Workerman\Protocols\GatewayProtocol');
         }
 
         if (!is_array($this->registerAddress)) {
@@ -213,8 +214,8 @@ class BusinessWorker extends Worker
         }
         $this->connectToRegister();
 
-        \GatewayWorker\Lib\Gateway::setBusinessWorker($this);
-        \GatewayWorker\Lib\Gateway::$secretKey = $this->secretKey;
+        LGateway::setBusinessWorker($this);
+        LGateway::$secretKey = $this->secretKey;
         if ($this->_onWorkerStart) {
             call_user_func($this->_onWorkerStart, $this);
         }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Config;
+namespace Workerman\Config;
 
 class Message
 {

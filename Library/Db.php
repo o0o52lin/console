@@ -1,5 +1,5 @@
 <?php
-namespace Library;
+namespace Workerman\Library;
 /**
  * 数据库类
  */

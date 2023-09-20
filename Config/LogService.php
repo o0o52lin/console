@@ -1,5 +1,5 @@
 <?php
-namespace Config;
+namespace Workerman\Config;
 
 /**
  * 众划算日志业务相关配置

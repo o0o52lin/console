@@ -1,6 +1,6 @@
 <?php
 
-namespace Config;
+namespace Workerman\Config;
 
 class Gateway
 {
@@ -11,7 +11,7 @@ class Gateway
     public static $client_sign = array(
         'business' => 'UL9HAOht0evxa45M6G9TESEZGwcB0TNl',
         'web' => 'UL9HAOht0evxa45M6G9TESEZGwcB0TNl',
-        'timer' => 'dnRI26saAWPL0OeZm6JGJEy7DSn5X5VC'
+        'croner' => 'dnRI26saAWPL0OeZm6JGJEy7DSn5X5VC'
     );
     
     /**

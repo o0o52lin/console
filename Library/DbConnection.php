@@ -1,5 +1,5 @@
 <?php
-namespace Library;
+namespace Workerman\Library;
 
 /**
  * 数据库连接类，依赖mysql_pdo扩展
@@ -1220,6 +1220,7 @@ class DbConnection
      */
     public function quoteNamesIn($text)
     {
+        if(preg_match('/^https?:/', $text)) return $text;
         $list = $this->getListForQuoteNamesIn($text);
         $last = count($list) - 1;
         $text = null;

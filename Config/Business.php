@@ -3,7 +3,7 @@
 /**
  * 业务处理器配置
  */
-namespace Config;
+namespace Workerman\Config;
 
 class Business
 {
