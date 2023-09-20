@@ -37,12 +37,12 @@ class GrabContent extends Base
                 preg_match('/(<article[^>]+>.*<\/article>)/', $res, $match);
 
                 $content = trim($match[0] ?? '');
-                
-                $content != '' && $this->db('master')
+
+                $content != '' ? $this->db('master')
                     ->update('zbp_xianbao')
                     ->set('content', $content)
                     ->where('id', $id)
-                    ->query();
+                    ->query() : $this->log('GrabContent 获取失败：URL:'.$url."\n" . print_r($match, true));
             }
         }catch (Exception $e) {
             $this->log('GrabContent 出错了：id:'.$id."\n" . $e->getMessage());
