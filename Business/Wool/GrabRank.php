@@ -68,6 +68,7 @@ class GrabRank extends Base
                             ->set('catename', $value['catename'])
                             ->set('comments', $value['comments'])
                             ->set('uname', $value['louzhu'])
+                            ->set('url', $value['url'])
                             ->set('origin_url', $url)
                             ->where('id', $chk['id'])
                             ->query();
@@ -83,6 +84,7 @@ class GrabRank extends Base
                             'catename' => $value['catename'],
                             'comments' => $value['comments'],
                             'uname' => $value['louzhu'],
+                            'url' => $value['url'],
                             'origin_url' => $url,
                             'dateline' => $value['shijianchuo'],
                         ];

@@ -68,6 +68,7 @@ class Grab extends Base
                             ->set('catename', $value['catename'])
                             ->set('comments', $value['comments'])
                             ->set('uname', $value['louzhu'])
+                            ->set('url', $value['url'])
                             ->set('origin_url', $url)
                             ->where('id', $chk['id'])
                             ->query();
@@ -84,6 +85,7 @@ class Grab extends Base
                             'comments' => $value['comments'],
                             'uname' => $value['louzhu'],
                             'origin_url' => $url,
+                            'url' => $value['url'],
                             'dateline' => $value['shijianchuo'],
                         ];
                         $rs = $this->db('master')
