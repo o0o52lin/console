@@ -19,7 +19,7 @@ class Business
      *
      * @var number
      */
-    public static $worker_count = 8;
+    public static $worker_count = 2;
     
     /**
      * 向网关发送数据时使用些签名加密，以便业务端验证来源合法性

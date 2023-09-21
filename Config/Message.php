@@ -14,5 +14,5 @@ class Message
 	 * 消息服务进程数
 	 * @var number
 	 */
-	public static $worker_count = 8;
+	public static $worker_count = 2;
 }
