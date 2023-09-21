@@ -29,8 +29,6 @@ $worker->onWorkerStart = function () use ($worker) {
     // 延迟1秒，等待网关、共享数据组件等初始化完成
     sleep(1);
     echo 'start...'.date('Y-m-d H:i:s')."\n";
-    $globaldata = new GlobalDataClient(GlobalData::$address . ':' . GlobalData::$port);
-    $globaldata->add($className, array('interval'=>$interval, 'last_time'=>time(), 'pid'=>0));
     // 触发任务
     $croner = CronerBase::getInstance($className = 'Workerman\Business\Croner\TaskCroner');
     Timer::add(0.01, array($croner, 'trigger'), array(), false);
