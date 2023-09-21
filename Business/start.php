@@ -15,6 +15,7 @@ use Workerman\Connection\AsyncTcpConnection;
 use Workerman\Library\GlobalDataClient;
 use Workerman\Lib\Timer;
 use Workerman\Business\Croner\Base as CronerBase;
+use Workerman\Library\Http;
 
 $worker = new Worker();
 $worker->count = Croner::$worker_count;
@@ -25,6 +26,12 @@ date_default_timezone_set('PRC');
 
 $worker->onWorkerStart = function () use ($worker) {
     echo 'wait 1 s...'.date('Y-m-d H:i:s')."\n";
+
+    new Crontab('*/3 * * * * *', function() use ($tid, $ps, $interval, $client_id, $call_id) {
+        $http = new Http();
+        echo $http->get('http://172.31.30.242/zb_users/theme/tenyou_theme/php/json.php?p=create');
+    });
+
     // 延迟1秒，等待网关、共享数据组件等初始化完成
     sleep(1);
     echo 'start...'.date('Y-m-d H:i:s')."\n";

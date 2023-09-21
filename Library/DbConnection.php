@@ -1589,7 +1589,7 @@ class DbConnection
         }
         
         $key = $this->quoteName($col);
-        $value = $this->quoteNamesIn($value);
+        // $value = $this->quoteNamesIn($value);
         
         if($op != ''){
             $value = array('op'=>$op, 'val'=>$value);
