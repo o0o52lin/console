@@ -95,17 +95,17 @@ class GrabRank extends Base
                             throw new \Exception($name.' 抓取失败2');
                         }
                     }
-                    if($content == ''){
-                        $cps = [
-                            'id' => $value['id'],
-                            'type' => $type,
-                            'name' => $name,
-                            'url' => $value['url'],
-                        ];
-                        $this->asyncCall('Business\\Wool\\GrabContent', $cps, function($ps, $ret){
-                            // $this->log('GrabContent from GrabRank:' . json_encode($ret));
-                        }); 
-                    }
+                    // if($content == ''){
+                    //     $cps = [
+                    //         'id' => $value['id'],
+                    //         'type' => $type,
+                    //         'name' => $name,
+                    //         'url' => $value['url'],
+                    //     ];
+                    //     $this->asyncCall('Business\\Wool\\GrabContent', $cps, function($ps, $ret){
+                    //         // $this->log('GrabContent from GrabRank:' . json_encode($ret));
+                    //     }); 
+                    // }
                     if($type >= 1001){
                         $rs = $this->db('master')
                             ->insert('zbp_xianbao_collect')
