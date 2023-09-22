@@ -43,53 +43,46 @@ class GrabNewest extends Base
                 $json = json_decode($res, true);
                 $json = is_array($json) ? $json : [];
                 $data_count = count($json);
-                if($type >= 1001){
-                    $tid = $type-1000;
-                    $this->db->where('`type`='.$tid)
-                        ->delete('zbp_xianbao_collect')
-                        ->query();
-                }
+
                 foreach ($json as $key => $value) {
                     if(mb_strlen($value['title'] ?? '', 'UTF-8') <= 3) continue;
 
-                    $chk = $this->db('master')->select('*')->from('zbp_xianbao')->where([
-                        'id'=>$value['id']
+                    $chk = $this->db('master')->select('*')->from('zbp_post')->where([
+                        'log_ID'=>$value['log_ID']
                     ])->limit(1)->forUpdate()->row();
                     $url = str_replace('`','', $value['yuanurl']);
                     $intro = preg_replace('/( ?qita=\{.*)$/', '', $value['content']);
                     $content = '';
-                    if($chk['id'] ?? 0){
+                    if($chk['log_ID'] ?? 0){
                         $content = trim($value['content'] ?? '');
                         $rs = $this->db('master')
-                            ->update('zbp_xianbao')
-                            ->set('title', $value['title'])
-                            ->set('intro', $intro)
-                            ->set('cateid', $value['cateid'])
-                            ->set('catename', $value['catename'])
-                            ->set('comments', $value['comments'])
-                            ->set('uname', $value['louzhu'])
-                            ->set('url', $value['url'])
-                            ->set('origin_url', $url)
-                            ->where('id', $chk['id'])
+                            ->update('zbp_post')
+                            ->set('log_Title', $value['title'])
+                            ->set('log_Intro', $intro)
+                            ->set('log_CateID', $value['cateid'])
+                            ->set('log_CommNums', $value['comments'])
+                            ->set('log_Uname', $value['louzhu'])
+                            ->set('log_Url', $value['url'])
+                            ->set('log_Ourl', $url)
+                            ->where('log_ID', $chk['log_ID'])
                             ->query();
                         if($rs < 1){
                             throw new \Exception($name.' 抓取失败1');
                         }
                     }else{
                         $data = [
-                            'id' => $value['id'],
-                            'title' => $value['title'],
-                            'intro' => $intro,
-                            'cateid' => $value['cateid'],
-                            'catename' => $value['catename'],
-                            'comments' => $value['comments'],
-                            'uname' => $value['louzhu'],
-                            'origin_url' => $url,
-                            'url' => $value['url'],
-                            'dateline' => $value['shijianchuo'],
+                            'log_ID' => $value['log_ID'],
+                            'log_Title' => $value['title'],
+                            'log_Intro' => $intro,
+                            'log_CateID' => $value['cateid'],
+                            'log_CommNums' => $value['comments'],
+                            'log_Uname' => $value['louzhu'],
+                            'log_Ourl' => $url,
+                            'log_Url' => $value['url'],
+                            'log_CreateTime' => $value['shijianchuo'],
                         ];
                         $rs = $this->db('master')
-                            ->insert('zbp_xianbao')
+                            ->insert('zbp_post')
                             ->cols($data)->query();
                         if($rs < 1){
                             throw new \Exception($name.' 抓取失败2');
@@ -97,7 +90,7 @@ class GrabNewest extends Base
                     }
                     // if($content == ''){
                     //     $cps = [
-                    //         'id' => $value['id'],
+                    //         'log_ID' => $value['log_ID'],
                     //         'type' => $type,
                     //         'name' => $name,
                     //         'url' => $value['url'],
@@ -106,18 +99,6 @@ class GrabNewest extends Base
                     //         // $this->log('GrabContent from GrabNewest:' . json_encode($ret));
                     //     }); 
                     // }
-                    if($type >= 1001){
-                        $rs = $this->db('master')
-                            ->insert('zbp_xianbao_collect')
-                            ->cols([
-                                'type'=>$tid,
-                                'xbid'=>$value['id']
-                            ])->query();
-
-                        if($rs < 1){
-                            throw new \Exception($name.' 抓取失败2');
-                        }
-                    }
                 }
             }
         }catch (Exception $e) {
