@@ -64,6 +64,7 @@ class GrabNewest extends Base
                             ->set('log_Uname', $value['louzhu'])
                             ->set('log_Url', $value['url'])
                             ->set('log_Ourl', $url)
+                            ->set('log_UpdateTime', $value['shijianchuo'])
                             ->where('log_ID', $chk['log_ID'])
                             ->query();
                         if($rs < 1){
@@ -80,6 +81,7 @@ class GrabNewest extends Base
                             'log_Ourl' => $url,
                             'log_Url' => $value['url'],
                             'log_CreateTime' => $value['shijianchuo'],
+                            'log_PostTime' => $value['shijianchuo'],
                         ];
                         $rs = $this->db('master')
                             ->insert('zbp_post')
