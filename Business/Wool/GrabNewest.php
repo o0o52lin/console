@@ -48,7 +48,7 @@ class GrabNewest extends Base
                     if(mb_strlen($value['title'] ?? '', 'UTF-8') <= 3) continue;
 
                     $chk = $this->db('master')->select('*')->from('zbp_post')->where([
-                        'log_ID'=>$value['log_ID']
+                        'log_ID'=>$value['id']
                     ])->limit(1)->forUpdate()->row();
                     $url = str_replace('`','', $value['yuanurl']);
                     $intro = preg_replace('/( ?qita=\{.*)$/', '', $value['content']);
