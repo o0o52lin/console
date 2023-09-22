@@ -71,7 +71,7 @@ class GrabNewest extends Base
                         }
                     }else{
                         $data = [
-                            'log_ID' => $value['log_ID'],
+                            'log_ID' => $value['id'],
                             'log_Title' => $value['title'],
                             'log_Intro' => $intro,
                             'log_CateID' => $value['cateid'],
