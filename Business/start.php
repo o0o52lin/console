@@ -30,6 +30,16 @@ $worker->onWorkerStart = function () use ($worker) {
     sleep(1);
     echo 'start...'.date('Y-m-d H:i:s')."\n";
     // 触发任务
-    $croner = CronerBase::getInstance($className = 'Workerman\Business\Croner\TaskCroner');
-    Timer::add(0.01, array($croner, 'trigger'), array(), false);
+    // $croner = CronerBase::getInstance($className = 'Workerman\Business\Croner\TaskCroner');
+    // Timer::add(0.01, array($croner, 'trigger'), array(), false);
+
+    $gn = new GrabNewest();
+    new Crontab('*/6 * * * * *', function() use ($gn) {
+        $gn->run([
+            'url'=>'http://new.xianbao.fun/plus/json/push.json',
+            'name'=>'最新10条',
+            'taskid'=>0,
+            'type'=>0
+        ]);
+    });
 };
