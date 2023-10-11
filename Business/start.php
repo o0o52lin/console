@@ -35,11 +35,12 @@ $worker->onWorkerStart = function () use ($worker) {
 
     $gn = new GrabNewest();
     new Crontab('*/6 * * * * *', function() use ($gn) {
-        $gn->run([
+        $data = $gn->run([
             'url'=>'http://new.xianbao.fun/plus/json/push.json',
             'name'=>'最新10条',
             'taskid'=>0,
             'type'=>0
         ]);
+        echo date('Y-m-d H:i:s').' => 获取到'.count($data).'条数据，第一条ID：'.($data[0]['id'] ?? 0);
     });
 };
