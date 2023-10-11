@@ -43,6 +43,7 @@ class GrabNewest extends Base
                 $json = json_decode($res, true);
                 $json = is_array($json) ? $json : [];
                 $data_count = count($json);
+                $first_id = $json[0]['id'] ?? '';
 
                 foreach ($json as $key => $value) {
                     if(mb_strlen($value['title'] ?? '', 'UTF-8') <= 3) continue;
@@ -102,7 +103,7 @@ class GrabNewest extends Base
                     //     }); 
                     // }
                 }
-                $this->log(date('Y-m-d H:i:s').' => 获取到的数据:' .json_encode($res));
+                $this->log(date('Y-m-d H:i:s').' => '.$data_count.'条数据，第一条ID：'.$first_id);
             }
         }catch (Exception $e) {
             $this->log('出错了：' . $e->getMessage());
