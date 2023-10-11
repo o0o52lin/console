@@ -102,6 +102,7 @@ class GrabNewest extends Base
                     //     }); 
                     // }
                 }
+                $this->log(date('Y-m-d H:i:s').' => 获取到的数据:' .json_encode($res));
             }
         }catch (Exception $e) {
             $this->log('出错了：' . $e->getMessage());
