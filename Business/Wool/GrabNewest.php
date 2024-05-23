@@ -64,7 +64,7 @@ class GrabNewest extends Base
                     https://www.dir28.com/205250.html
                     https://www.mf927.com/post/7841.html
                     */
-                    preg_match('/(?:detail\/|thread-|\?content_id=|topic\/|feed\/|i-wz-|dir28\.com\/|post\/)(\d+)/', $url, $match)
+                    preg_match('/(?:detail\/|thread-|\?content_id=|topic\/|feed\/|i-wz-|dir28\.com\/|post\/)(\d+)/', $url, $match);
                     $oid = trim($match[1] ?? '');
                     $intro = preg_replace('/( ?qita=\{.*)$/', '', $value['content']);
                     $content = '';
