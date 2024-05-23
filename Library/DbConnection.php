@@ -1864,7 +1864,6 @@ class DbConnection
         $this->resetAll();
         $this->lastSql = $query;
         
-                        echo '0000000000000'.$query.var_export($params, true).PHP_EOL;
         $this->execute($query,$params);
         return $this->sQuery->fetch($fetchmode);
     }
