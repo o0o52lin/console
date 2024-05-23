@@ -49,9 +49,23 @@ class GrabNewest extends Base
                     if(mb_strlen($value['title'] ?? '', 'UTF-8') <= 3) continue;
 
                     $chk = $this->db('master')->select('*')->from('zbp_post')->where([
-                        'log_ID'=>$value['id']
+                        'log_XbkID'=>$value['id']
                     ])->limit(1)->forUpdate()->row();
-                    $url = str_replace('`','', $value['yuanurl']);
+                    $url = str_replace('`','', $value['yuanurl'] ?? '');
+                    /*
+                    https://m.weibo.cn/detail/5037145058969377
+                    http://www.zuanke8.com/thread-9299034-1-1.html
+                    https://v1.xianbao.net/thread-222825-1-1.html
+                    https://www.douban.com/group/topic/306281833/
+                    https://www.coolapk.com/feed/56099957
+                    https://app.xiaodigu.cn/mag/circle/v1/show/wapShowView?content_id=303802
+                    https://www.x6g.com/i-wz-26140.html
+                    https://yyok.cc/46147.html
+                    https://www.dir28.com/205250.html
+                    https://www.mf927.com/post/7841.html
+                    */
+                    preg_match('/(?:detail\/|thread-|\?content_id=|topic\/|feed\/|i-wz-|dir28\.com\/|post\/)(\d+)/', $url, $match)
+                    $oid = trim($match[1] ?? '');
                     $intro = preg_replace('/( ?qita=\{.*)$/', '', $value['content']);
                     $content = '';
                     if($chk['log_ID'] ?? 0){
@@ -64,6 +78,7 @@ class GrabNewest extends Base
                             ->set('log_CommNums', $value['comments'])
                             ->set('log_Uname', $value['louzhu'])
                             ->set('log_Url', $value['url'])
+                            ->set('log_OID', $oid)
                             ->set('log_Ourl', $url)
                             ->set('log_UpdateTime', $value['shijianchuo'])
                             ->where('log_ID', $chk['log_ID'])
@@ -73,12 +88,13 @@ class GrabNewest extends Base
                         }
                     }else{
                         $data = [
-                            'log_ID' => $value['id'],
+                            'log_XbkID' => $value['id'],
                             'log_Title' => $value['title'],
                             'log_Intro' => $intro,
                             'log_CateID' => $value['cateid'],
                             'log_CommNums' => $value['comments'],
                             'log_Uname' => $value['louzhu'],
+                            'log_OID' => $oid,
                             'log_Ourl' => $url,
                             'log_Url' => $value['url'],
                             'log_CreateTime' => $value['shijianchuo'],
