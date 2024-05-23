@@ -48,9 +48,9 @@ class GrabNewest extends Base
                 foreach ($json as $key => $value) {
                     if(mb_strlen($value['title'] ?? '', 'UTF-8') <= 3) continue;
 
-                    $chk = $this->db('master')->select('*')->from('zbp_post')->where([
-                        'log_XbkID'=>$value['id']
-                    ])->limit(1)->forUpdate()->row();
+                    $chk = $this->db('master')->select('*')->from('zbp_post')->where(
+                        'log_XbkID='.$value['id']
+                    )->limit(1)->forUpdate()->row();
                     $url = str_replace('`','', $value['yuanurl'] ?? '');
                     /*
                     https://m.weibo.cn/detail/5037145058969377
@@ -81,7 +81,7 @@ class GrabNewest extends Base
                             ->set('log_OID', $oid)
                             ->set('log_Ourl', $url)
                             ->set('log_UpdateTime', $value['shijianchuo'])
-                            ->where('log_ID', $chk['log_ID'])
+                            ->where('log_ID='.$chk['log_ID'])
                             ->query();
                         if($rs < 1){
                             throw new \Exception($name.' 抓取失败1');
