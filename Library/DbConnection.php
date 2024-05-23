@@ -1680,7 +1680,6 @@ class DbConnection
                 foreach($this->parameters as $param)
                 {
                     $parameters = explode("\x7F",$param);
-                    if(is_numeric($parameters[0] ?? 0)) continue;
                     $this->sQuery->bindParam($parameters[0],$parameters[1]);
                 }
             }
