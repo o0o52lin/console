@@ -1680,6 +1680,10 @@ class DbConnection
                 foreach($this->parameters as $param)
                 {
                     $parameters = explode("\x7F",$param);
+                    if(is_numeric($parameters[0] ?? 0)){
+                        echo '跳过'.var_export($parameters, true).PHP_EOL;
+                        continue;
+                    }
                     $this->sQuery->bindParam($parameters[0],$parameters[1]);
                 }
             }
