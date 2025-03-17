@@ -1,6 +1,6 @@
 <?php
 
-namespace Workerman\Business\Wool;
+namespace Workerman\Business\GongLeGeHui;
 
 use Workerman\Library\Http;
 use Workerman\Business\Base;
