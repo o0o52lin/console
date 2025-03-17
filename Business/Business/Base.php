@@ -67,7 +67,7 @@ abstract class Base
     {
         $this->db = Db::instance(Database::$slave);
         // 链接业务网关
-        $this->sign = Croner::$gateway_sign;
+        $this->sign = Business::$gateway_sign;
         $this->gateway = 'tcp://' . Gateway::$address . ':' . Gateway::$port;
         $this->conn = new AsyncTcpConnection($this->gateway);
         $this->conn->connect();
