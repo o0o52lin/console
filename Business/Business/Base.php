@@ -1,6 +1,6 @@
 <?php
 
-namespace Workerman\Business\Croner;
+namespace Workerman\Business\Business;
 
 use Workerman\Library\DbConnection;
 use Workerman\Library\Db;
@@ -9,10 +9,9 @@ use Workerman\Library\Log;
 use Workerman\Library\GlobalDataClient;
 use Workerman\Config\Database;
 use Workerman\Config\Gateway;
-use Workerman\Config\Croner;
+use Workerman\Config\Business;
 use Workerman\Config\GlobalData;
 use Workerman\Lib\Timer;
-use Workerman\Business\Croner\Tasktimer;
 
 /**
  * 定时器基类
