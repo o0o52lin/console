@@ -132,11 +132,11 @@ class MessageEvents
                 $id = $ps['id'];
 
                 echo date('Y-m-d H:i:s').' 实例:'.$class."\n";
-                if(isset(self::$instances[$class]])){
-                    $instance = self::$instances[$class]];
+                if(isset(self::$instances[$class])){
+                    $instance = self::$instances[$class];
                 }else{
                     $instance = new $class();
-                    self::$instances[$class]] = $instance;
+                    self::$instances[$class] = $instance;
                 }
                 $ret = $instance->run($ps);
                 
