@@ -24,7 +24,7 @@ class Game extends Base
         $name = trim($params['name']);
         $interval = intval($params['interval'] ?? 30);
 
-         return $this->log('params' . json_encode($params, JSON_UNESCAPED_UNICODE));
+        return $this->log('params' . json_encode($params, JSON_UNESCAPED_UNICODE));
 
         // if (!$this->checkTaskTimer($taskid, $params)) {
         //     return false;

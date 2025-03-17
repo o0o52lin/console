@@ -67,9 +67,10 @@ class MessageEvents
             // 签名错误
             return self::response($client_id, array('code'=>401,'msg'=>'invalid sign','call_id'=>$call_id,'data'=>'签名错误'));
         }
-        
+
+        $class = 'Workerman\\'.$data['class'];
         // 判断类对应文件是否载入
-        if(!class_exists('Workerman\\'.$data['class'])){
+        if(!class_exists($class)){
             Log::add('无此业务: ' . $message);
             $code = 404;
             $msg = "class {$data['class']} not found";
@@ -131,8 +132,13 @@ class MessageEvents
                 $id = $ps['id'];
 
                 echo date('Y-m-d H:i:s').' 获取内容:id:'.$id."\n";
-                $a = new GrabContent();
-                $ret = $a->run($ps);
+                if(isset(self::$instances[$data['class']])){
+                    $instance = self::$instances[$data['class']];
+                }else{
+                    $instance = new $data['class']();
+                    self::$instances[$data['class']] = $instance;
+                }
+                $ret = $instance->run($ps);
                 
                 // 发送数据给客户端，调用成功，data下标对应的元素即为调用结果
                 return self::response($client_id, array('code'=>0,'msg'=>'ok','call_id'=>$call_id,'data'=>$ret));
