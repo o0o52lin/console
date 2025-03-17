@@ -69,7 +69,7 @@ class MessageEvents
         }
         
         // 判断类对应文件是否载入
-        if(!class_exists('Workerman\\'.$data['class'])){
+        if(!class_exists($data['class'])){
             Log::add('无此业务: ' . $message);
             $code = 404;
             $msg = "class {$data['class']} not found";
