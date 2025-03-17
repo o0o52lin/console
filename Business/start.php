@@ -15,6 +15,7 @@ use Workerman\Connection\AsyncTcpConnection;
 use Workerman\Library\GlobalDataClient;
 use Workerman\Lib\Timer;
 use Workerman\Business\Croner\Base as CronerBase;
+use Workerman\Business\Business\Base as BusinessBase;
 use Workerman\Library\Http;
 
 $worker = new Worker();
@@ -33,14 +34,17 @@ $worker->onWorkerStart = function () use ($worker) {
     // $croner = CronerBase::getInstance($className = 'Workerman\Business\Croner\TaskCroner');
     // Timer::add(0.01, array($croner, 'trigger'), array(), false);
 
-    $gn = new GrabNewest();
-    new Crontab('*/6 * * * * *', function() use ($gn) {
-        $data = $gn->run([
-            'url'=>'http://new.xianbao.fun/plus/json/push.json',
-            'name'=>'最新10条',
-            'taskid'=>0,
-            'type'=>0
-        ]);
-        echo date('Y-m-d H:i:s').' => 获取到'.count($data).'条数据，第一条ID：'.($data[0]['id'] ?? 0);
-    });
+    $croner = BusinessBase::getInstance($className = 'Workerman\Business\Business\Tasker');
+    Timer::add(0.01, array($croner, 'trigger'), array(), false);
+
+    // $gn = new GrabNewest();
+    // new Crontab('*/6 * * * * *', function() use ($gn) {
+    //     $data = $gn->run([
+    //         'url'=>'http://new.xianbao.fun/plus/json/push.json',
+    //         'name'=>'最新10条',
+    //         'taskid'=>0,
+    //         'type'=>0
+    //     ]);
+    //     echo date('Y-m-d H:i:s').' => 获取到'.count($data).'条数据，第一条ID：'.($data[0]['id'] ?? 0);
+    // });
 };
