@@ -131,12 +131,12 @@ class MessageEvents
                 $ps = $data['params'];
                 $id = $ps['id'];
 
-                echo date('Y-m-d H:i:s').' 获取内容:id:'.$id."\n";
-                if(isset(self::$instances[$data['class']])){
-                    $instance = self::$instances[$data['class']];
+                echo date('Y-m-d H:i:s').' 实例:'.$class."\n";
+                if(isset(self::$instances[$class]])){
+                    $instance = self::$instances[$class]];
                 }else{
-                    $instance = new $data['class']();
-                    self::$instances[$data['class']] = $instance;
+                    $instance = new $class();
+                    self::$instances[$class]] = $instance;
                 }
                 $ret = $instance->run($ps);
                 
